@@ -57,7 +57,7 @@
       <v-spacer />
       <div class="mr-3">
         <v-badge
-          v-model="show"
+
           color="cyan"
           left
         >

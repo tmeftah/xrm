@@ -10,7 +10,7 @@
       md6
     >
       <div class="text-center">
-        Dashboard
+        Products
       </div>
     </v-flex>
   </v-layout>
