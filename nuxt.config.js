@@ -27,6 +27,7 @@ export default {
       href: '/favicon.ico'
     }]
   },
+
   /*
    ** Customize the progress-bar color
    */
@@ -90,6 +91,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend (config, ctx) {}
+    extend (config, ctx) { }
   }
 }
