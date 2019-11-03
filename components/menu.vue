@@ -57,7 +57,6 @@
       <v-spacer />
       <div class="mr-3">
         <v-badge
-
           color="cyan"
           left
         >
@@ -92,12 +91,10 @@
           </template>
 
           <v-list>
-            <v-list-item
-              v-for="n in 5"
-              :key="n"
-              @click="() => {}"
-            >
-              <v-list-item-title>Option {{ n }}</v-list-item-title>
+            <v-list-item>
+              <v-list-item-title @click="signOut">
+                Sign out
+              </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -107,6 +104,7 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
@@ -154,6 +152,17 @@ export default {
   computed: {
     itemss () {
       return this.$store.sidebar.items
+    }
+  },
+  methods: {
+    signOut () {
+      this.$store.dispatch('userLogout')
+        .then(() => {
+          this.$router.push('/login')
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 }

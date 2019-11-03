@@ -13,6 +13,9 @@ export const mutations = {
   SET_USER (state, account) {
     state.user = account || null
   },
+  RESET_USER (state) {
+    state.user = null
+  },
   GET_CUSTOMERS (state, customers) {
     state.customers = customers || []
   },
@@ -35,6 +38,15 @@ export const actions = {
     // set the user locally
     commit('SET_USER', { email, uid })
     this.$router.push('/')
+  },
+  resetUser ({ commit }) {
+    commit('RESET_USER')
+    Cookie.remove('access_token')
+  },
+  userLogout () {
+    return auth.signOut().then(() => {
+      this.dispatch('resetUser')
+    })
   },
   async  getCustomers ({ commit, state }) {
     const query = await fireDb.collection('users')
