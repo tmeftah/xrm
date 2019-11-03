@@ -5,7 +5,8 @@ import { auth, fireDb } from '@/services/firebase'
 
 export const state = () => ({
   user: null,
-  customers: []
+  customers: [],
+  writeSuccess: false
 })
 
 export const mutations = {
@@ -14,6 +15,9 @@ export const mutations = {
   },
   GET_CUSTOMERS (state, customers) {
     state.customers = customers || []
+  },
+  AddCustomer (state) {
+    state.writeSuccess = true
   }
 }
 
@@ -43,6 +47,25 @@ export const actions = {
         customers.push(customer)
       })
       commit('GET_CUSTOMERS', customers)
+    })
+  },
+  async addCustomer ({ commit }, customer) {
+    const query = fireDb.collection('users').doc(auth.currentUser.uid).collection('customers')
+    const exist = query.where('email', '==', customer.email)
+    await exist.where('email', '==', customer.email).get().then((snap) => {
+      if (snap.size === 0) {
+        try {
+          query.add(customer).then(
+            commit('AddCustomer')
+          )
+        } catch (e) {
+          // TODO: error handling
+          console.error(e)
+        }
+      }
+      // snap.forEach((doc) => {
+      //   console.log(doc.data())
+      // })
     })
   },
 

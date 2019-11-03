@@ -70,7 +70,7 @@
             <v-btn
               color="success"
               class="mr-4"
-              @click="writeToFirestore"
+              @click="addCustomer"
             >
               Save
             </v-btn>
@@ -82,18 +82,17 @@
 </template>
 
 <script>
-import { fireDb, auth } from '@/services/firebase.js'
+
 export default {
   middleware: 'authenticated',
   data () {
     return {
       valid: true,
-
       nameRules: [
         v => !!v || 'Field is required',
         v => (v && v.length <= 10) || 'Name must be less than 10 characters'
       ],
-      email: '',
+
       emailRules: [
         v => !!v || 'E-mail is required',
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
@@ -102,8 +101,6 @@ export default {
         v => !!v || 'E-mail is required',
         v => /^[0-9-]*$/.test(v) || 'E-mail must be valid'
       ],
-      writeSuccessful: false,
-      readSuccessful: false,
       customer: {
         firstname: '',
         lastname: '',
@@ -115,6 +112,9 @@ export default {
   },
 
   methods: {
+    addCustomer () {
+      this.$store.dispatch('addCustomer', this.customer)
+    },
     validate () {
       if (this.$refs.form.validate()) {
         this.snackbar = true
@@ -125,16 +125,6 @@ export default {
     },
     resetValidation () {
       this.$refs.form.resetValidation()
-    },
-    async writeToFirestore () {
-      const customers = fireDb.collection('users').doc(auth.currentUser.uid).collection('customers')
-      try {
-        await customers.add(this.customer)
-      } catch (e) {
-        // TODO: error handling
-        console.error(e)
-      }
-      this.writeSuccessful = true
     }
   }
 }
