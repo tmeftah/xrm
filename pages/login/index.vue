@@ -1,36 +1,56 @@
 <template>
-  <form @submit.prevent>
-    <v-container>
-      <v-row>
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <v-text-field
-            v-model="account.email"
-            label="E-mail"
-            required
-          />
-        </v-col>
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <v-text-field
-            v-model="account.password"
-            label="Password"
-            required
-          />
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-btn
-      class="mr-4"
-      @click="login"
+  <v-container
+    fluid
+    fill-height
+  >
+    <v-row
+      align-center
+      justify-center
     >
-      submit
-    </v-btn>
-  </form>
+      <v-col
+        cols="12"
+        sm="8"
+        offset-sm="2"
+        md="4"
+        offset-md="4"
+      >
+        <v-card>
+          <v-toolbar
+            flat
+            color="indigo darken-1"
+            dark
+          >
+            <v-toolbar-title>
+              Log in to access x-RM
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <form @submit.prevent>
+              <v-text-field
+                v-model="account.email"
+                label="E-mail"
+                required
+              />
+              <v-text-field
+                v-model="account.password"
+                :append-icon="show1 ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                :type="show1 ? 'text' : 'password'"
+                label="Password"
+                required
+                @click:append="show1 = !show1"
+              />
+              <v-btn
+                class="mr-4 success"
+                @click="login"
+              >
+                Sign In
+              </v-btn>
+            </form>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -44,7 +64,8 @@ export default {
       password: 't@tt.de'
     },
     isError: false,
-    errorString: ''
+    errorString: '',
+    show1: false
   }),
   methods: {
     login () {
