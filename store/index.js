@@ -1,15 +1,19 @@
 import Cookie from 'js-cookie'
 import JWTDecode from 'jwt-decode'
 import cookieparse from 'cookieparser'
-import { auth } from '@/services/firebase'
+import { auth, fireDb } from '@/services/firebase'
 
 export const state = () => ({
-  user: null
+  user: null,
+  customers: []
 })
 
 export const mutations = {
   SET_USER (state, account) {
     state.user = account || null
+  },
+  GET_CUSTOMERS (state, customers) {
+    state.customers = customers || []
   }
 }
 
@@ -26,7 +30,22 @@ export const actions = {
 
     // set the user locally
     commit('SET_USER', { email, uid })
+    this.$router.push('/')
   },
+  async  getCustomers ({ commit, state }) {
+    const query = await fireDb.collection('users')
+      .doc(state.user.uid)
+      .collection('customers')
+    await query.onSnapshot((snap) => {
+      const customers = []
+      snap.forEach((doc) => {
+        const customer = doc.data()
+        customers.push(customer)
+      })
+      commit('GET_CUSTOMERS', customers)
+    })
+  },
+
   nuxtServerInit ({ commit }, { req }) {
     if (process.server && process.static) { return };
     if (!req.headers.cookie) { return };
@@ -49,5 +68,8 @@ export const getters = {
   },
   loggedUser (state) {
     return state.user
+  },
+  customersList (state) {
+    return state.customers
   }
 }
