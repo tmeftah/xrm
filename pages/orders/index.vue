@@ -63,6 +63,7 @@
               :items="orders"
               :items-per-page="5"
               class="elevation-1"
+              dense
             />
           </template>
         </div>
@@ -72,7 +73,7 @@
 </template>
 
 <script>
-import { fireDb } from '@/services/firebase.js'
+import { fireDb, auth } from '@/services/firebase.js'
 export default {
   middleware: 'authenticated',
   data () {
@@ -92,31 +93,41 @@ export default {
         { text: 'Customer', value: 'customer' },
         { text: 'Order Date', value: 'order_date' }
       ],
-      orders: [
-
-        {
-          ref: this.text,
-          items: 2,
-          amount: 25.0,
-          customer: 'Test Customer',
-          order_date: Date(Date.now())
-        }
-      ]
+      orders: []
     }
+  },
+  mounted () {
+    this.getTodos()
   },
 
   methods: {
+    async getTodos () {
+      const orders = await fireDb.collection('users')
+        .doc(auth.currentUser.uid)
+        .collection('orders')
+      orders.onSnapshot((snap) => {
+        this.orders = []
+        snap.forEach((doc) => {
+          const order = doc.data()
+          order.id = doc.id
+          order.ref = orders.id
+          this.orders.push(order)
+        })
+      })
+    },
 
     async writeToFirestore () {
-      const ref = fireDb.collection('oders').doc('customer_1')
+      const order = fireDb.collection('users').doc(auth.currentUser.uid).collection('orders')
       const document = {
-        amount: 24,
+        amount: 247,
         items: 3,
         order_date: Date(Date.now())
       }
 
       try {
-        await ref.set(document)
+        await order.add(document).then(await function (docRef) {
+          docRef.collection('item_list').add(document)
+        })
       } catch (e) {
         // TODO: error handling
         console.error(e)
