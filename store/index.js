@@ -1,3 +1,4 @@
+
 import Cookie from 'js-cookie'
 import JWTDecode from 'jwt-decode'
 import cookieparse from 'cookieparser'
@@ -6,7 +7,9 @@ import { auth, fireDb } from '@/services/firebase'
 export const state = () => ({
   user: null,
   customers: [],
-  writeSuccess: false
+  writeSuccess: false,
+  static_: false,
+  server_: false
 })
 
 export const mutations = {
@@ -21,6 +24,12 @@ export const mutations = {
   },
   AddCustomer (state) {
     state.writeSuccess = true
+  },
+  IS_STATIC (state, static_) {
+    state.static_ = static_
+  },
+  IS_SERVER (state, server_) {
+    state.server_ = server_
   }
 }
 
@@ -82,7 +91,10 @@ export const actions = {
   },
 
   nuxtServerInit ({ commit }, { req }) {
-    // if (process.server && process.static) { return };
+    console.log(process.static, process.server)
+    commit('IS_STATIC', process.static)
+    commit('IS_SERVER', process.server)
+    if (process.server && process.static) { return };
     if (!req.headers.cookie) { return };
     const parsed = cookieparse.parse(req.headers.cookie)
     const acessTokenCookie = parsed.access_token
