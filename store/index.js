@@ -82,7 +82,7 @@ export const actions = {
   },
 
   nuxtServerInit ({ commit }, { req }) {
-    if (process.server && process.static) { return };
+    // if (process.server && process.static) { return };
     if (!req.headers.cookie) { return };
     const parsed = cookieparse.parse(req.headers.cookie)
     const acessTokenCookie = parsed.access_token
