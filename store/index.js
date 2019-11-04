@@ -91,10 +91,10 @@ export const actions = {
   },
 
   nuxtServerInit ({ commit }, { req }) {
-    console.log(process.static, process.server)
-    commit('IS_STATIC', process.static)
-    commit('IS_SERVER', process.server)
-    if (process.server && process.static) { return };
+    // console.log(process.static, process.server)
+    // commit('IS_STATIC', process.static)
+    // commit('IS_SERVER', process.server)
+    // if (process.server && process.static) { return };
     if (!req.headers.cookie) { return };
     const parsed = cookieparse.parse(req.headers.cookie)
     const acessTokenCookie = parsed.access_token
