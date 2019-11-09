@@ -71,28 +71,27 @@
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
 
-        <v-menu
-          left
-          bottom
-        >
+        <v-menu offset-y>
           <template v-slot:activator="{ on }">
             <v-btn
               icon
-              color="success"
+              width="auto"
+              height="auto"
               v-on="on"
             >
               <v-avatar>
                 <img
                   src="https://avatars.dicebear.com/v2/male/gvdfgfh.svg"
                   alt="John"
+                  size="35"
                 >
               </v-avatar>
             </v-btn>
           </template>
 
           <v-list>
-            <v-list-item>
-              <v-list-item-title @click="signOut">
+            <v-list-item @click="signOut">
+              <v-list-item-title>
                 Sign out
               </v-list-item-title>
             </v-list-item>
