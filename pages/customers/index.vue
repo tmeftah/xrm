@@ -48,12 +48,11 @@
               class="mx-2 light-green accent-2"
               fab
               small
+              @click="add_customer"
             >
-              <nuxt-link to="/customers/add">
-                <v-icon>
-                  mdi-plus-thick
-                </v-icon>
-              </nuxt-link>
+              <v-icon>
+                mdi-plus-thick
+              </v-icon>
             </v-btn>
           </div>
         </v-card-title>
@@ -109,6 +108,9 @@ export default {
   methods: {
     get_customers () {
       this.$store.dispatch('getCustomers')
+    },
+    add_customer () {
+      this.$router.push('/customers/add')
     }
 
   }
