@@ -81,9 +81,9 @@
               color="success"
               v-on="on"
             >
-              <v-avatar color="red">
+              <v-avatar>
                 <img
-                  src="https://cdn.vuetifyjs.com/images/john.jpg"
+                  src="https://avatars.dicebear.com/v2/male/gvdfgfh.svg"
                   alt="John"
                 >
               </v-avatar>
