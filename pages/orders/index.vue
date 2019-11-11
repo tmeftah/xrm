@@ -130,7 +130,7 @@ export default {
         })
       } catch (e) {
         // TODO: error handling
-        console.error(e)
+        // console.error(e)
       }
       this.writeSuccessful = true
     }

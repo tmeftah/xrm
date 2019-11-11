@@ -98,16 +98,16 @@ export default {
   },
   computed: {
     customers () {
-      return this.$store.getters.customersList
+      return this.$store.getters['customers/get_list']
     }
   },
   beforeMount () {
-    this.$store.dispatch('getCustomers')
+    this.$store.dispatch('customers/getCustomers')
   },
 
   methods: {
     get_customers () {
-      this.$store.dispatch('getCustomers')
+      this.$store.dispatch('customers/getCustomers')
     },
     add_customer () {
       this.$router.push('/customers/add')
