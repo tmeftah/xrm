@@ -58,14 +58,29 @@
         </v-card-title>
 
         <div>
-          <template>
-            <v-data-table
-              :headers="headers"
-              :items="customers"
-              :items-per-page="5"
-              class="elevation-1"
-            />
-          </template>
+          <v-data-table
+            :headers="headers"
+            :items="customers"
+            :items-per-page="5"
+            class="elevation-1"
+          >
+            <template v-slot:body="{ items }">
+              <tbody>
+                <tr
+                  v-for="item in items"
+                  :key="item.id"
+                >
+                  <td>
+                    <a :href="'customers/update/'+item.id">
+                      {{ item.firstname }}</a>
+                  </td>
+                  <td>{{ item.lastname }}</td>
+                  <td>{{ item.email }}</td>
+                  <td>{{ item.mobile }}</td>
+                </tr>
+              </tbody>
+            </template>
+          </v-data-table>
         </div>
       </v-card>
     </v-flex>
@@ -111,6 +126,9 @@ export default {
     },
     add_customer () {
       this.$router.push('/customers/add')
+    },
+    update_customer (id) {
+      this.$route.push('customers/update/:id')
     }
 
   }
