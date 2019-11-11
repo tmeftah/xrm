@@ -1,13 +1,18 @@
 <template>
-  <v-layout column>
-    <v-flex xs12>
-      <v-card outlined>
+  <v-row
+    align-center
+    justify-center
+  >
+    <v-col
+      cols="12"
+      sm="8"
+      offset-sm="2"
+    >
+      <v-card>
         <v-card-title>
-          <div cols="12">
-            <span>New Customer</span>
-          </div>
+          <span>New Customer</span>
         </v-card-title>
-        <v-card-actions>
+        <v-card-text>
           <v-form
             ref="form"
             v-model="valid"
@@ -45,29 +50,7 @@
             />
 
             <v-btn
-              :disabled="!valid"
-              color="success"
-              class="mr-4"
-              @click="validate"
-            >
-              Validate
-            </v-btn>
-
-            <v-btn
-              color="error"
-              class="mr-4"
-              @click="reset"
-            >
-              Reset Form
-            </v-btn>
-
-            <v-btn
-              color="warning"
-              @click="resetValidation"
-            >
-              Reset Validation
-            </v-btn>
-            <v-btn
+              :loading="loading"
               color="success"
               class="mr-4"
               @click="addCustomer"
@@ -75,10 +58,10 @@
               Save
             </v-btn>
           </v-form>
-        </v-card-actions>
+        </v-card-text>
       </v-card>
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -108,24 +91,20 @@ export default {
         mobile: ''
 
       }
+
     }
   },
 
   methods: {
     addCustomer () {
-      this.$store.dispatch('addCustomer', this.customer)
-    },
-    validate () {
       if (this.$refs.form.validate()) {
         this.snackbar = true
+        this.$store.dispatch('customers/addCustomer', this.customer)
+        // this.$refs.form.reset()
+        // this.$refs.form.resetValidation()
       }
-    },
-    reset () {
-      this.$refs.form.reset()
-    },
-    resetValidation () {
-      this.$refs.form.resetValidation()
     }
+
   }
 }
 </script>
