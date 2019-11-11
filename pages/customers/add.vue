@@ -50,7 +50,6 @@
             />
 
             <v-btn
-              :loading="loading"
               color="success"
               class="mr-4"
               @click="addCustomer"
