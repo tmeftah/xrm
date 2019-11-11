@@ -4,7 +4,7 @@
       <v-card outlined>
         <v-card-title>
           <div cols="12">
-            <span>Customers (20)</span>
+            <span>Customers ({{ customers.length }})</span>
             <v-text-field
               v-model="text"
               label="Quick Search"
