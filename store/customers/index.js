@@ -23,6 +23,7 @@ export const actions = {
       const list = []
       snap.forEach((doc) => {
         const customer = doc.data()
+        customer.id = doc.id
         list.push(customer)
       })
       commit('GET_CUSTOMERS', list)
@@ -52,5 +53,18 @@ export const actions = {
 export const getters = {
   get_list (state) {
     return state.list
+  },
+  getCustomer: state => (id) => {
+    if (state.list.length) {
+      return state.list.filter(customer => customer.id === id)[0]
+    } else {
+      return {
+        firstname: '',
+        lastname: '',
+        email: '',
+        mobile: ''
+
+      }
+    }
   }
 }
