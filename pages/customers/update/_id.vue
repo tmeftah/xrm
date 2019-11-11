@@ -88,12 +88,12 @@ export default {
   },
   computed: {
     customer () {
-      return this.$store.getters['customers/getCustomer'](this.$route.params.id)
+      return this.$store.getters['customers/getCustomer']
     }
   },
 
   beforeCreate () {
-    this.$store.dispatch('customers/getCustomers')
+    this.$store.dispatch('customers/getCustomerID', this.$route.params.id)
   },
 
   methods: {

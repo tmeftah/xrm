@@ -2,7 +2,14 @@
 import { auth, fireDb } from '@/services/firebase'
 
 export const state = () => ({
-  list: []
+  list: [],
+  customer: {
+    firstname: '',
+    lastname: '',
+    email: '',
+    mobile: ''
+
+  }
 
 })
 
@@ -10,6 +17,9 @@ export const mutations = {
 
   GET_CUSTOMERS (state, list) {
     state.list = list || []
+  },
+  SET_CUSTOMER (state, customer) {
+    state.customer = customer
   }
 }
 
@@ -28,6 +38,13 @@ export const actions = {
       })
       commit('GET_CUSTOMERS', list)
     })
+  },
+  async  getCustomerID ({ commit, rootState }, id) {
+    await fireDb.collection('users')
+      .doc(rootState.user.uid)
+      .collection('customers').doc(id).get().then((res) => {
+        commit('SET_CUSTOMER', res.data())
+      })
   },
   async addCustomer ({ commit }, payload) {
     const query = fireDb.collection('users').doc(auth.currentUser.uid).collection('customers')
@@ -54,17 +71,7 @@ export const getters = {
   get_list (state) {
     return state.list
   },
-  getCustomer: state => (id) => {
-    if (state.list.length) {
-      return state.list.filter(customer => customer.id === id)[0]
-    } else {
-      return {
-        firstname: '',
-        lastname: '',
-        email: '',
-        mobile: ''
-
-      }
-    }
+  getCustomer (state) {
+    return state.customer
   }
 }
